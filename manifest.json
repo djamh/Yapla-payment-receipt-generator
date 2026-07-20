@@ -1,0 +1,60 @@
+{
+  "manifest_version": 3,
+  "name": "Yapla - Générateur d'attestation de paiement",
+  "version": "1.0.0",
+  "description": "Génère automatiquement une attestation de paiement Yapla à partir des données Stripe.",
+
+  "permissions": [
+    "storage",
+    "tabs"
+  ],
+
+  "host_permissions": [
+    "https://s1.yapla.com/*",
+    "https://s2.yapla.com/*",
+    "https://dashboard.stripe.com/*"
+  ],
+
+  "background": {
+    "service_worker": "background.js"
+  },
+
+  "content_scripts": [
+    {
+      "matches": [
+        "https://s1.yapla.com/accounting/*/billing/view/billingId/*",
+        "https://s2.yapla.com/accounting/*/billing/view/billingId/*"
+      ],
+      "css": [
+        "content/yapla.css"
+      ],
+      "js": [
+        "lib/jspdf.umd.min.js",
+        "lib/jspdf.plugin.autotable.min.js",
+        "content/shared.js",
+        "content/yapla.js"
+      ],
+      "run_at": "document_idle"
+    },
+    {
+      "matches": [
+        "https://dashboard.stripe.com/*"
+      ],
+      "js": [
+        "content/shared.js",
+        "content/stripe.js"
+      ],
+      "run_at": "document_start"
+    },
+    {
+      "matches": [
+        "https://dashboard.stripe.com/*"
+      ],
+      "js": [
+        "content/stripe-bridge.js"
+      ],
+      "run_at": "document_start",
+      "world": "MAIN"
+    }
+  ]
+}
