@@ -18,7 +18,7 @@ function createMainButton() {
 
   const credit = document.createElement('span');
   credit.className = 'ya-attestation-button-credit';
-  credit.textContent = 'Created by Thiago';
+  credit.textContent = 'Created by Djamal';
 
   button.append(title, credit);
   button.addEventListener('click', startFromYapla);
